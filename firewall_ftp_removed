@@ -1,0 +1,73 @@
+Chain INPUT (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+   16  1433 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ICMP_INGRESS  icmp --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            multiport dports 80,443 state NEW,ESTABLISHED
+  196 34676 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            multiport sports 80,443 state NEW,ESTABLISHED
+   11  1225 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp spt:53
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp spt:53
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpt:53
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:53
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp spts:67:68 dpts:67:68
+    7   532 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:22 state NEW,ESTABLISHED
+  101 11205 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp spt:22 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:23 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:21 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp spt:21 state ESTABLISHED
+    9   675 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            state NEW limit: avg 10/sec burst 10
+    0     0 DROP       udp  --  *      *       0.0.0.0/0            0.0.0.0/0            multiport sports 7,19
+    0     0 ACCEPT     esp  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     ah   --  *      *       0.0.0.0/0            0.0.0.0/0           
+  444 40183 LOGGING    all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain FORWARD (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+   16  1433 ACCEPT     all  --  *      lo      0.0.0.0/0            0.0.0.0/0           
+    2   267 ICMP_EGRESS  icmp --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            multiport sports 80,443 state NEW,ESTABLISHED
+  198 50317 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            multiport dports 80,443 state NEW,ESTABLISHED
+   12   783 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpt:53
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:53
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp spt:53
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp spt:53
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp spts:67:68 dpts:67:68
+    7   280 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp spt:22 state ESTABLISHED
+  152 13101 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:22
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp spt:23 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp spt:21 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:21 state NEW,ESTABLISHED
+   40  3506 LOGGING    all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain ICMP_EGRESS (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 0 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 0
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8
+    2   267 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 3 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 3
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 11 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 11
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 12 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 12
+
+Chain ICMP_INGRESS (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 0 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 0
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 3 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 3
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 11 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 11
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 12 limit: avg 10/sec burst 10
+    0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 12
+
+Chain LOGGING (2 references)
+ pkts bytes target     prot opt in     out     source               destination         
+  200 19177 LOG        all  --  *      *       0.0.0.0/0            0.0.0.0/0            limit: avg 50/min burst 5 LOG flags 0 level 4 prefix "Ghansham Dropped Packet:"
+  484 43689 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0           
